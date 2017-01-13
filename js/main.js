@@ -26,15 +26,19 @@ if (Math.random() > 0, 5) {
 
 $dieAndNum.click(function() {
     if (gameOver === true) return false;
-    $die.attr('src', './img/Dodecahedron3.gif');
 
+    $die.attr('src', './img/Dodecahedron3.gif');
+    $roll.html('?');
 
     var num = Math.floor(Math.random() * 10 + 1);
-    $roll.html(num);
 
+    setTimeout(function() {
+        $roll.html(num);
+        movePlayer(num);
+    }, 1800);
+});
 
-
-
+function movePlayer(num) {
     var $playerToMove;
     var playerTile;
     if (turn === 'player1') {
@@ -63,24 +67,20 @@ $dieAndNum.click(function() {
         'top': tilePos.top,
         'left': tilePos.left
     });
+}
+
+function onGameOver($winner) {
+    gameOver = true;
+    var tilePos = $winnerCircle[0].getBoundingClientRect();
+    $winner.css({
+        'top': tilePos.top,
+        'left': tilePos.left
+    }).addClass('winner-circle');
+
+    setTimeout(function() {
+        alert('Winner!');
+    }, 400);
+    console.log($winner);
 
 
-
-    function onGameOver($winner) {
-        gameOver = true;
-        var tilePos = $winnerCircle[0].getBoundingClientRect();
-        $winner.css({
-          'top':tilePos.top ,
-          'left':tilePos.left
-        }).addClass('winner-circle');
-
-        setTimeout(function() {
-          alert('Winner!');
-        },400);
-        console.log($winner);
-
-
-    }
-
-
-});
+}
